@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>ProChat - AI Character Conversations</title>
+    <meta name="description" content="Chat with anime characters powered by AI. Choose your favorite character and have real conversations.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- App Container -->
+    <div id="app">
+        
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <div class="header-logo">✦ ProChat</div>
+                    <div class="header-divider"></div>
+                    <div class="header-version">v1.0</div>
+                </div>
+                <button id="reset-btn" class="reset-btn hidden" title="Clear data and reset">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+                        <path d="M21 3v5h-5"/>
+                        <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+                        <path d="M3 21v-5h5"/>
+                    </svg>
+                    Reset
+                </button>
+            </div>
+        </header>
+
+        <!-- VIEW: LANDING -->
+        <section id="view-landing" class="view-section">
+            <div class="landing-container">
+                <div class="landing-content">
+                    <!-- Main heading -->
+                    <div class="landing-header">
+                        <div class="landing-icon">✦</div>
+                        <h1 class="landing-title">
+                            <span class="title-line primary">ProChat</span>
+                            <span class="title-line primary">AI Character Conversations</span>
+                        </h1>
+                        <p class="landing-subtitle">Talk naturally with your favorite anime characters</p>
+                    </div>
+
+                    <!-- Features -->
+                    <div class="landing-features">
+                        <div class="feature-card">
+                            <div class="feature-icon">💬</div>
+                            <div class="feature-title">Natural Conversations</div>
+                            <div class="feature-text">Chat naturally with anime characters powered by advanced AI</div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🎭</div>
+                            <div class="feature-title">Multiple Personas</div>
+                            <div class="feature-text">Choose from different characters, each with unique personalities</div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🔒</div>
+                            <div class="feature-title">Privacy First</div>
+                            <div class="feature-text">Your conversations stay local. No accounts, no tracking</div>
+                        </div>
+                    </div>
+
+                    <!-- CTA -->
+                    <div class="landing-actions">
+                        <button onclick="app.showApiKeyView()" class="btn-primary btn-large">
+                            Get Started
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Info -->
+                    <div class="landing-info">
+                        <p class="info-text">
+                            <strong>How it works:</strong> This app uses Google's Generative Language API to power character conversations.
+                            You'll need your own API key (free to get). Your conversations are stored locally on your device only.
+                        </p>
+                        <a href="https://aistudio.google.com/app/apikey" target="_blank" class="info-link">
+                            Get a free API key →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: API KEY -->
+        <section id="view-apiKey" class="view-section hidden">
+            <div class="form-container">
+                <div class="form-content">
+                    <div class="form-header">
+                        <div class="form-icon">🔑</div>
+                        <h2 class="form-title">API Key Setup</h2>
+                        <p class="form-subtitle">Enter your Google AI Studio API key to continue</p>
+                    </div>
+                    
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="form-label">API Key</label>
+                            <input type="password" 
+                                   id="api-key-input" 
+                                   placeholder="AIza..." 
+                                   autocomplete="off"
+                                   class="text-input">
+                            <p class="form-help">
+                                Don't have one? <a href="https://aistudio.google.com/app/apikey" target="_blank" class="link">Get it here</a>
+                            </p>
+                            <p id="api-error" class="form-error hidden">Please enter a valid API key</p>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button onclick="app.goBack('landing')" class="btn-secondary">
+                                Back
+                            </button>
+                            <button onclick="app.saveApiKey()" class="btn-primary">
+                                Continue
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-footer">
+                        <p class="footer-note">
+                            🔒 Your API key is stored locally on your device and never sent to any server except Google's API.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: CHARACTER SELECTION -->
+        <section id="view-character" class="view-section hidden">
+            <div class="character-container">
+                <div class="character-content">
+                    <div class="character-header">
+                        <h2 class="character-title">Choose Your Character</h2>
+                        <p class="character-subtitle">Select who you'd like to chat with</p>
+                    </div>
+
+                    <div class="character-grid">
+                        <!-- Frieren -->
+                        <div class="character-card" data-character="character1">
+                            <div class="character-avatar">
+                                <img src="assets/Frieren.png" alt="Frieren" class="character-image">
+                            </div>
+                            <div class="character-info">
+                                <h3 class="character-name">Frieren</h3>
+                                <p class="character-role">Ancient Elf Mage</p>
+                                <p class="character-desc">A thousand-year-old mage learning to understand humans</p>
+                            </div>
+                            <button onclick="app.selectCharacter('character1')" class="btn-select">
+                                Select
+                            </button>
+                        </div>
+
+                        <!-- Nao Tomori -->
+                        <div class="character-card" data-character="character2">
+                            <div class="character-avatar">
+                                <img src="assets/Nao-Tomori.png" alt="Nao Tomori" class="character-image">
+                            </div>
+                            <div class="character-info">
+                                <h3 class="character-name">Nao Tomori</h3>
+                                <p class="character-role">Student Council President</p>
+                                <p class="character-desc">Sharp-tongued and caring, always has her camcorder ready</p>
+                            </div>
+                            <button onclick="app.selectCharacter('character2')" class="btn-select">
+                                Select
+                            </button>
+                        </div>
+
+                        <!-- Mikasa -->
+                        <div class="character-card" data-character="character3">
+                            <div class="character-avatar">
+                                <img src="assets/Mikasa.png" alt="Mikasa" class="character-image">
+                            </div>
+                            <div class="character-info">
+                                <h3 class="character-name">Mikasa</h3>
+                                <p class="character-role">Loyal Warrior</p>
+                                <p class="character-desc">Greatest female member of the survey corps</p>
+                            </div>
+                            <button onclick="app.selectCharacter('character3')" class="btn-select">
+                                Select
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: CHAT -->
+        <section id="view-chat" class="view-section hidden">
+            
+            <div class="character-bar">
+                <div class="character-bar-content">
+                    <div class="character-bar-left">
+                        <div class="character-bar-avatar">
+                            <img id="current-avatar" src="assets/Frieren.png" alt="Character" class="character-bar-image">
+                        </div>
+                        <div class="character-bar-info">
+                            <div id="current-character-name" class="character-bar-name">Frieren</div>
+                            <div id="current-character-status" class="character-bar-status">Online</div>
+                        </div>
+                    </div>
+                    <div class="character-bar-actions">
+                        <button onclick="app.clearCurrentChat()" class="btn-clear-chat" title="Clear current chat">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"/>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                <line x1="10" y1="11" x2="10" y2="17"/>
+                                <line x1="14" y1="11" x2="14" y2="17"/>
+                            </svg>
+                            Clear
+                        </button>
+                        <button onclick="app.exportChat()" class="btn-export" title="Export chat to text file">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            Export
+                        </button>
+                        <button onclick="app.changeCharacter()" class="btn-change-character" title="Change character">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                            Change
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Area -->
+            <div class="chat-area">
+                <div id="chat-messages" class="chat-messages">
+                    <!-- Messages will be inserted here -->
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+                <div class="input-wrapper">
+                    <textarea id="user-input" 
+                              placeholder="Type your message..." 
+                              rows="1"
+                              class="user-input"></textarea>
+                    <button id="send-btn" 
+                            disabled
+                            class="send-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Typing indicator -->
+                <div id="typing-indicator" class="typing-indicator hidden">
+                    <div class="typing-dots">
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                    </div>
+                    <span class="typing-label" id="typing-character-name">Character 1</span> is typing...
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="footer-content">
+            <span class="footer-text">ProChat • AI Character Conversations • Built with ♥</span>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+
+</body>
+</html>
